@@ -21,6 +21,7 @@ struct UserService{
                     completion(User(user))
                     
             }
+            }
         }
     }
     
@@ -46,6 +47,7 @@ struct UserService{
         
         Firestore.firestore().collection("users").document(uid)
             .updateData([
+                "email" : user.email,
                 "username" : user.username.lowercased(),
                 "firstName" : user.firstName]) { error in
                     if let error = error{

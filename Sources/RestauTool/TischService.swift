@@ -54,7 +54,7 @@ struct TischService{
         }
     
     
-    public func uploadTables(_ tische: [Tisch], completion: @escaping([Tisch]) -> Void){
+    public func uploadTables(_ tische: [Tisch], completion: @escaping() -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let ref = Firestore.firestore().collection("users")
             .document(uid)
@@ -78,3 +78,5 @@ struct TischService{
         }
     }
 }
+        completion()
+    }

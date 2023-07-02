@@ -16,7 +16,7 @@ import PhotosUI
 public class AuthModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
     @Published var didAuthenticatedUser = false
-    /// Der zurzeit eingelxoggte User mit all seinen Infos
+    /// Der zurzeit eingeloggte User mit all seinen Infos
     @Published public var user: User?
     
     
@@ -54,6 +54,7 @@ public class AuthModel: ObservableObject {
     ///   - email: Die hinterlegte Email
     ///   - password: Das hinterlegte Passwort
     ///   - completion: Falls es einen Fehler gibt wird er hier zurückgegeben
+    
     public func einloggen(mitEmail email: String, password: String, completion: @escaping(Error?) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error{
@@ -144,8 +145,6 @@ public class AuthModel: ObservableObject {
                 self.userSession = nil
         }
     }
-    
-    
 
     ///Diese Funktion kann ein Profilfoto hochladen.
     ///
@@ -261,8 +260,7 @@ public class AuthModel: ObservableObject {
                 }
         }
     }
-    
-    func fetchUser(){
+ func fetchUser(){
         guard let uid = userSession?.uid else { return }
         service.fetchUser(withUid: uid) { user in
             self.user = user
@@ -274,7 +272,8 @@ public class AuthModel: ObservableObject {
     /// - Parameters:
     ///   - user: Die neuen Daten in Form der ``User``-Klasse
     ///   - completion: Falls es einen Fehler gibt wird er hier zurückgegeben
-    public func aktualisiereUser(neueUserDaten user: User, completion: @escaping(Error?) -> Void){
+   
+    public func aktualisiereUser(_ user: User, completion: @escaping(Error?) -> Void){
         service.updateUserData(to: user) { user, error in
             if let error = error{
                 completion(error)
@@ -285,7 +284,4 @@ public class AuthModel: ObservableObject {
             }
         }
     }
-    
-    
-    
 }

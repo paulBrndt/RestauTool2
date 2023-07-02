@@ -22,7 +22,7 @@ public class RestauManager: ObservableObject{
     }
     
     
-    func ladeAlleTische(){
+public func ladeAlleTische(){
         tischService.fetchTables { tische in
             self.tische = tische
         }
