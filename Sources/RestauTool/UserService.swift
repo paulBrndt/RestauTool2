@@ -10,7 +10,7 @@ import FirebaseFirestoreSwift
 
 struct UserService{
     
-    func fetchUser(withUid uid: String, completion: @escaping(User) -> Void){
+   public func fetchUser(withUid uid: String, completion: @escaping(User) -> Void){
         Firestore.firestore().collection("users")
             .document(uid)
             .getDocument { snapshot, _ in
@@ -21,10 +21,9 @@ struct UserService{
                     completion(User(user))
                     
             }
-            }
         }
     
-    func fetchUsers(completion: @escaping([User]) -> Void){
+   public func fetchUsers(completion: @escaping([User]) -> Void){
         Firestore.firestore().collection("users")
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else { return }
@@ -34,14 +33,18 @@ struct UserService{
         }
     }
     
+<<<<<<< HEAD
     func deleteUserData(forUid uid: String, completion: @escaping(Error?) -> Void){
+=======
+    public func deleteUserData(forUid uid: String, completion: @escaping(Error?) -> Void){
+>>>>>>> 294371cdd82b6456abfb9b6848aebe4bfca04d1b
         Firestore.firestore().collection("users").document(uid).delete() { error in
             completion(error)
         }
     }
     
     
-    func updateUserData(to user: User, completion: @escaping(User?, Error?) -> Void){
+   public func updateUserData(to user: User, completion: @escaping(User?, Error?) -> Void){
         guard let uid = user.id else { return }
         
         Firestore.firestore().collection("users").document(uid)

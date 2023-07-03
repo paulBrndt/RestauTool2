@@ -44,6 +44,7 @@ public class AuthModel: ObservableObject {
     /// - Parameters:
     ///   - bild: Wie soll das Bild aussehen; siehe Codebeispiel
     ///   - platzhalter: Wie soll der Platzhalter aussehen, siehe Codebeispiel
+        @available(iOS 15.0, *)
     public func profilFoto(modifier: @escaping (Image) -> Image, placeholder: @escaping () -> Text) -> ProfileImage<Text> {
         return ProfileImage(user?.profileImageURL, image: modifier, placeholder: placeholder)
         }
