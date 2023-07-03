@@ -23,7 +23,6 @@ struct UserService{
             }
             }
         }
-    }
     
     func fetchUsers(completion: @escaping([User]) -> Void){
         Firestore.firestore().collection("users")
@@ -35,7 +34,7 @@ struct UserService{
         }
     }
     
-     func deleteUserData(forUid uid: String, completion: @escaping(Error?) -> Void){
+    func deleteUserData(forUid uid: String, completion: @escaping(Error?) -> Void){
         Firestore.firestore().collection("users").document(uid).delete() { error in
             completion(error)
         }

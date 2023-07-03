@@ -105,6 +105,35 @@ public class AuthModel: ObservableObject {
     }
     
     
+    public func registrieren(mitDaten data: LoginDaten, completion: @escaping(Error?) -> Void) {
+        Auth.auth().createUser(withEmail: data.email, password: data.password) { result, error in
+            if let error = error {
+                completion(error)
+                return
+            }
+            guard let user = result?.user else { return }
+            self.userSession = user
+            
+            let data = [
+                "email": data.email,
+                "username": data.username.lowercased(),
+                "firstName": data.name,
+                "uid": user.uid,
+            ]
+            Firestore.firestore()
+                .collection("users")
+                    .document(user.uid)
+                        .setData(data){ error in
+                            if let error = error{
+                                print(error.localizedDescription)
+                                return
+                            }
+                            self.didAuthenticatedUser = true
+            }
+        }
+    }
+    
+    
     /// Melde den aktuellen User ab
     public func abmelden() {
             withAnimation{
@@ -133,7 +162,7 @@ public class AuthModel: ObservableObject {
             }
         }
         guard let uid = user?.id else { return }
-        service.deleteUserData(forUid: uid) { error in
+        self.service.deleteUserData(forUid: uid) { error in
             if let error = error{
                 completion(error)
                 return
@@ -262,7 +291,7 @@ public class AuthModel: ObservableObject {
     }
  func fetchUser(){
         guard let uid = userSession?.uid else { return }
-        service.fetchUser(withUid: uid) { user in
+     self.service.fetchUser(withUid: uid) { user in
             self.user = user
         }
     }
@@ -274,7 +303,7 @@ public class AuthModel: ObservableObject {
     ///   - completion: Falls es einen Fehler gibt wird er hier zurückgegeben
    
     public func aktualisiereUser(_ user: User, completion: @escaping(Error?) -> Void){
-        service.updateUserData(to: user) { user, error in
+        self.service.updateUserData(to: user) { user, error in
             if let error = error{
                 completion(error)
                 return
