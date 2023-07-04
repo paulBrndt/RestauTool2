@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TextInputField: View {
+struct TextFeld: View {
     let icon: String
     let placeholder: String
     @Binding  var text: String
