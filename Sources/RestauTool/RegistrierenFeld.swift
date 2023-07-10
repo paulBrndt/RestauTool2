@@ -10,12 +10,10 @@ import SwiftUI
 public struct RegistrierenFeld: View{
     @State private var feld: RegistrierenFeldAuftrag
     @State private var placeholder: String?
-    @Binding var text: String
     @Binding var data: RegistrierenData
     
-    public init(feld: RegistrierenFeldAuftrag, text: Binding<String>, platzhalter: String? = nil, data: Binding<RegistrierenData>) {
+    public init(feld: RegistrierenFeldAuftrag, platzhalter: String? = nil, data: Binding<RegistrierenData>) {
         self.feld = feld
-        self._text = text
         self.placeholder = platzhalter
         self._data = data
     }
