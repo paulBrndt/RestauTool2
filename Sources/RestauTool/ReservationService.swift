@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct ReservationService{
     
@@ -13,10 +14,16 @@ struct ReservationService{
             return Calendar.current.dateComponents([.day], from: start, to: end).day!
     }
     
-    func addReservation(forDate date: Date) throws {
-        if daysBetween(start: .now, end: date) < 366{
-            throw ReservationError.zuWeitImVoraus(abWannBuchbar: <#T##Date#>)
-        }
+    func findTableForReservation(date: Date){
+        
     }
-    let test = Calendar.current.date(byAdding: .year, to: <#T##Date#>)
+    
+    func addReservation(forDate date: Date, withHowManyPeople people: Int, completion: @escaping(Reservierung) -> Void) throws {
+        if daysBetween(start: .now, end: date) < 366{
+            throw ReservationError.zuWeitImVoraus(abWannBuchbar: Calendar.current.date(byAdding: .year, value: 1, to: .now))
+            return
+        }
+        
+        
+    }
 }

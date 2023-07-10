@@ -9,7 +9,7 @@ import SwiftUI
 
 public enum ReservationError: Error, LocalizedError{
     case schonBelegt
-    case zuWeitImVoraus(abWannBuchbar: Date)
+    case zuWeitImVoraus(abWannBuchbar: Date?)
     
     public var errorMessage: String{
         switch self {
@@ -21,9 +21,15 @@ public enum ReservationError: Error, LocalizedError{
             
         case let .zuWeitImVoraus(datum):
             
-            return NSLocalizedString(
-                "Leider ist dieser Termin noch zu weit entfernt. Probieren sie bitte ein näherliegendes Datum oder probieren sie es ab dem \(datum.formatted(.dateTime.month().day().year())) nocheinmal",
-                comment: "Zu Weit in der zukunft")
+            if let date = datum{
+                return NSLocalizedString(
+                    "Leider ist dieser Termin noch zu weit entfernt. Probieren sie bitte ein näherliegendes Datum oder probieren sie es ab dem \(date.formatted(.dateTime.month().day().year())) nocheinmal",
+                    comment: "Zu Weit in der zukunft")
+            } else {
+                return NSLocalizedString(
+                    "Leider ist dieser Termin noch zu weit entfernt. Probieren sie bitte ein näherliegendes Datum oder probieren sie es demnächst nocheinmal",
+                    comment: "Zu Weit in der zukunft")
+            }
         }
     }
 }

@@ -18,6 +18,8 @@ public struct Tisch: Identifiable, Decodable{
     public var isBesetzt: Bool
     /// Ein optionales Array aller bestellten Gerichte
     public var gerichte: [Gericht]?
+    /// Personen, die an diesem Tisch Platz haben
+    public var personen: Int
     
     /// Der optionale und totale Preis aller Gerichte - wenn keine Gerichte vorhanden sind entspricht er nil
     public var totalPreis: Double?{
@@ -25,15 +27,14 @@ public struct Tisch: Identifiable, Decodable{
         return liste.compactMap({$0.preis}).reduce(0, +)
     }
     
-    /// Die Initialisierung der Tisch-Struktur
+    /// Die Initialisierung des Tisches
     /// - Parameters:
-    ///   - id: Die ID wird von Firebase-Firestore benötigt, ist die Adresse zu dem betreffenden Dokument und ist erforderlich, damit die Struktur dem Identifiable-Protokoll entspricht
     ///   - name: Der Name des Tisches, er ist ein String, kann aber auch Zahlen enthalten bzw. nur aus Zahlen bestehen.
-    ///   - isBesetzt: Eine Variable, die bestimmt, ob der Tisch besetzt ist oder nicht. Hierbei entspricht true dem Status besetzt
-    ///   - gerichte: Ein Array aller bestellten Gerichte
-    public init(name: String, isBesetzt: Bool) {
+    ///   - personen: Die Anzahl der Personen, die an diesem Tisch Platz haben.
+    public init(name: String, personen: Int) {
         self.name = name
-        self.isBesetzt = isBesetzt
+        self.personen = personen
+        self.isBesetzt = false
     }
     
     
