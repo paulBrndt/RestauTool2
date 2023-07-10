@@ -68,4 +68,8 @@ public struct Tisch: Identifiable, Decodable{
 
            self.gerichte = gerichte
        }
+    
+    public mutating func tischIstBesetzt(_ isBesetzt: Bool = true){
+        self.isBesetzt = isBesetzt
+    }
 }

@@ -39,7 +39,10 @@ struct GerichteService{
 //            let id = UUID().uuidString
 //            
 //            ref.document(id)
-//                .setData(["name":gerichte[i].])
+//                .setData(["name":gerichte[i].name,
+//                          "id":id
+//
+//    ])
 //        }
 //    }
     
