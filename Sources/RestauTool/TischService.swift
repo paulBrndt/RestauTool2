@@ -20,14 +20,14 @@ struct TischService{
             .document(uid)
             .getDocument { snapshot, _ in
                 
-            if let snapshot = snapshot{
-                
-                guard let tisch = try? snapshot.data(as: Tisch.self) else { return }
-                
-            completion(tisch)
-            
-            } else { return }
-        }
+                if let snapshot = snapshot{
+                    
+                    guard let tisch = try? snapshot.data(as: Tisch.self) else { return }
+                    
+                    completion(tisch)
+                    
+                } else { return }
+            }
     }
     
     func fetchTables(completion: @escaping([Tisch]) -> Void){
@@ -40,7 +40,7 @@ struct TischService{
                 guard let docs = snapshots?.documents else { return }
                 
                 var tische = docs.compactMap({try? $0.data(as: Tisch.self)})
-
+                
                 let service = GerichteService()
                 
                 for i in 0..<tische.count{
@@ -51,10 +51,10 @@ struct TischService{
                 }
                 completion(tische)
             }
-        }
+    }
     
     
-    public func uploadTables(_ tische: [Tisch], completion: @escaping() -> Void){
+    public func uploadTables(_ tische: [Tisch], completion: @escaping([Tisch]) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let ref = Firestore.firestore().collection("users")
             .document(uid)
@@ -78,5 +78,3 @@ struct TischService{
         }
     }
 }
-        completion()
-    }

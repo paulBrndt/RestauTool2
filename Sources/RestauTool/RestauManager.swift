@@ -22,6 +22,7 @@ public class RestauManager: ObservableObject{
     }
     
     
+    /// Eine Funktion, die alle Tische, die zu Firebase hochgeladen wurden, mit ihren Bestellungen abruft
 public func ladeAlleTische(){
         tischService.fetchTables { tische in
             self.tische = tische
