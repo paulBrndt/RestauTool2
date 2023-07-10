@@ -35,7 +35,7 @@ public struct RegistrierenFeld: View{
 
 
 
-public enum RegistrierenFeldAuftrag{
+public enum RegistrierenFeldAuftrag: CaseIterable{
     case email
     case username
     case name
