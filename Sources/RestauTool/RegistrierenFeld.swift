@@ -53,4 +53,17 @@ public enum RegistrierenFeldAuftrag{
             return ""
         }
     }
+    
+    var icon: String{
+        switch self{
+        case .email:
+            return "envelope"
+        case .username:
+            return "fork.knife"
+        case .name:
+            return "person"
+        case .password:
+            return ""
+        }
+    }
 }
