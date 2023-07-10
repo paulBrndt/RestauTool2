@@ -28,6 +28,21 @@ struct GerichteService{
         }
     }
     
+//    func uploadAllGerichte(forTable tableId: String, gerichte: [Gericht], completion: @escaping() -> Void){
+//        
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        
+//        let ref = Firestore.firestore().collection("users").document(uid)
+//            .collection("gerichte")
+//        
+//        for i in 0..<gerichte.count{
+//            let id = UUID().uuidString
+//            
+//            ref.document(id)
+//                .setData(["name":gerichte[i].])
+//        }
+//    }
+    
     func fetchGericht(forTable id: String, forOrderId orderId: String, completion: @escaping(Gericht) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
