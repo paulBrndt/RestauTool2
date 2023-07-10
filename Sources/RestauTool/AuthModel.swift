@@ -106,7 +106,7 @@ public class AuthModel: ObservableObject {
     }
     
     
-    public func registrieren(mitDaten data: LoginDaten, completion: @escaping(Error?) -> Void) {
+    public func registrieren(mitDaten data: RegistrierenData, completion: @escaping(Error?) -> Void) {
         Auth.auth().createUser(withEmail: data.email, password: data.password) { result, error in
             if let error = error {
                 completion(error)
