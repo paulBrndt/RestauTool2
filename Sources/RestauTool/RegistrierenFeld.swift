@@ -41,7 +41,7 @@ public enum RegistrierenFeldAuftrag{
     case name
     case password
     
-    var placeholder: String{
+    public var placeholder: String{
         switch self{
         case .email:
             return "Email hier eingeben"
@@ -54,7 +54,7 @@ public enum RegistrierenFeldAuftrag{
         }
     }
     
-    var icon: String{
+    public var icon: String{
         switch self{
         case .email:
             return "envelope"
