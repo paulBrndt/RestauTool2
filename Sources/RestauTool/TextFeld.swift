@@ -10,7 +10,13 @@ import SwiftUI
 struct TextFeld: View {
     let icon: String
     let placeholder: String
-    @Binding  var text: String
+    @Binding var text: String
+
+    public init(icon: String, placeholder: String, text: Binding<String>){
+        self.icon = icon
+        self.placeholder = placeholder
+        self._text = text
+    }
     
     var body: some View {
         VStack {

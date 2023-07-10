@@ -12,4 +12,6 @@ public class LoginDaten: ObservableObject{
     @Published public var username = ""
     @Published public var name = ""
     @Published public var password = ""
+    
+    public init() {}
 }
