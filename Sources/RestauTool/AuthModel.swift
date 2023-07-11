@@ -101,6 +101,7 @@ public class AuthModel: ObservableObject {
                                 return
                             }
                             self.didAuthenticatedUser = true
+                            self.fetchUser()
             }
         }
     }
@@ -130,6 +131,7 @@ public class AuthModel: ObservableObject {
                                 return
                             }
                             self.didAuthenticatedUser = true
+                            self.fetchUser()
             }
         }
     }
