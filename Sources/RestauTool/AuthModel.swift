@@ -345,9 +345,14 @@ public class AuthModel: ObservableObject {
     
     
  func fetchUser(){
-        guard let uid = userSession?.uid else { return }
+     guard let uid = userSession?.uid else { return }
      self.service.fetchUser(withUid: uid) { user in
-            self.user = user
+         self.user = user
+         print("Die User-Daten wurde erfolgreich aktualisiert, die Daten sind jetzt:")
+         print("E-Mail -> \(user.email)")
+         print("Name -> \(user.firstName)")
+         print("Username -> \(user.username)")
+         print("ENDE DER AUFZÄLUNG")
         }
     }
     
