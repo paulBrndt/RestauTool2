@@ -290,6 +290,74 @@ public class AuthModel: ObservableObject {
                 }
         }
     }
+    
+    @available(macOS 13.0, *)
+    /// Eine etwas einfacher gestaltete Version dieser Funktion
+    ///
+    ///Sie ist aber asynchron und muss so verwendet werden
+    ///```swift
+    ///Task{
+    ///tool.auth.ladeProfilFotoHoch(pickerItem)
+    ///}
+    ///```
+    ///
+    ///Dieses Task wird dabei unbedingt benötigt
+    ///
+    ///
+    ///Am besten verwendest du das so:
+    ///```swift
+    ///@State private var selectedItem: PhotosPickerItem? = nil
+    ///var body: some View{
+    ///         VStack{
+    ///         PhotosPicker(selection: $selectedItem){
+    ///                 if let data imageData, let image = UIImage(data: data){
+    ///                      Image(uiImage: image)
+    ///                      .scaledToFit()
+    ///                 } else {
+    ///                 Text("Placeholder")
+    ///                 }
+    ///         }
+    ///         .onChange(of: selectedItem) { newItem in
+    ///             Task {
+    ///                 if let data = try? await newItem?.loadTransferable(type: Data.self) {
+    ///                      imageData = data
+    ///                      }
+    ///             }
+    ///         }
+    ///         if let data = imageData{
+    ///                 Button("Weiter"){
+    ///                 tool.auth.ladeProfilFotoHoch(data)
+    ///                 }
+    ///         }
+    ///     }
+    ///}
+    ///```
+    ///
+    ///Falls du das Foto garnicht anzeigen möchtest reicht es so
+    ///```swift
+    ///@State private var selectedItem: PhotosPickerItem? = nil
+    ///var body: some View{
+    ///         PhotosPicker(selection: $selectedItem){
+    ///                 if let data imageData, let image = UIImage(data: data){
+    ///                      Image(uiImage: image)
+    ///                      .scaledToFit()
+    ///                 } else {
+    ///                 Text("Placeholder")
+    ///                 }
+    ///     }
+    ///}
+    ///```
+    ///
+    ///
+    ///
+    /// - Parameter pickerItem: Ein ausgewähltes Foto eines PhotoPickers
+    public func ladeProfilFotoHoch(_ pickerItem: PhotosPickerItem) async {
+         guard let data = try? await pickerItem.loadTransferable(type: Data.self) else { return }
+        self.ladeProfilFotoHoch(data)
+    }
+    
+    
+    
  func fetchUser(){
         guard let uid = userSession?.uid else { return }
      self.service.fetchUser(withUid: uid) { user in
