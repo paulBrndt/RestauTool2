@@ -11,6 +11,8 @@ import SwiftUI
 
 extension AuthModel{
     
+    @available(iOS 15.0, *)
+    
     public struct ProfileImage<Content>: View where Content: View {
         let placeholder: () -> Content
         let urlString: String?
