@@ -24,14 +24,14 @@ struct UserService{
             }
     }
     
-   public func fetchUsers(completion: @escaping([User]) -> Void){
+    public func fetchUsers(completion: @escaping([User]) -> Void){
         Firestore.firestore().collection("users")
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else { return }
                 let users = documents.compactMap({try? $0.data(as: StaticUser.self)})
                 completion(users.compactMap({User($0)}))
                 
-        }
+            }
     }
     
     public func deleteUserData(forUid uid: String, completion: @escaping(Error?) -> Void){
@@ -41,7 +41,7 @@ struct UserService{
     }
     
     
-   public func updateUserData(to user: User, completion: @escaping(User?, Error?) -> Void){
+    public func updateUserData(to user: User, completion: @escaping(User?, Error?) -> Void){
         guard let uid = user.id else { return }
         
         Firestore.firestore().collection("users").document(uid)
@@ -56,5 +56,6 @@ struct UserService{
                     self.fetchUser(withUid: uid) { user in
                         completion(user, nil)
                     }
+                }
     }
 }
