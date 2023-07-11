@@ -21,10 +21,9 @@ struct ReservationService{
     }
     
     func addReservation(forDate date: Date, withHowManyPeople people: Int) throws {
-        if daysBetween(start: .now, end: date) < 366{
-            throw ReservationError.zuWeitImVoraus(abWannBuchbar: Calendar.current.date(byAdding: .year, value: 1, to: .now))
+        if daysBetween(start: Date(), end: date) < 366{
+            throw ReservationError.zuWeitImVoraus(abWannBuchbar: Calendar.current.date(byAdding: .year, value: 1, to: Date()))
         }
-        
         
     }
     
