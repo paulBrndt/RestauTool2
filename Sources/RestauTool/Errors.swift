@@ -23,13 +23,19 @@ public enum ReservationError: Error, LocalizedError{
         case let .zuWeitImVoraus(datum):
             
             if let date = datum{
-                return NSLocalizedString(
-                    "Leider ist dieser Termin noch zu weit entfernt. Probieren sie bitte ein näherliegendes Datum oder probieren sie es ab dem \(date.formatted(.dateTime.month().day().year())) nocheinmal",
-                    comment: "Zu Weit in der Zukunft")
+                if #available(iOS 15.0, *) {
+                    return NSLocalizedString(
+                        "Leider ist dieser Termin noch zu weit entfernt. Probieren sie bitte ein näherliegendes Datum oder probieren sie es ab dem \(date.formatted(.dateTime.month().day().year())) nocheinmal",
+                        comment: "Zu Weit in der zukunft")
+                } else {
+                    return NSLocalizedString(
+                        "Leider ist dieser Termin noch zu weit entfernt. Probieren sie bitte ein näherliegendes Datum oder probieren sie es demnächst nocheinmal",
+                        comment: "Zu Weit in der zukunft")
+                }
             } else {
                 return NSLocalizedString(
                     "Leider ist dieser Termin noch zu weit entfernt. Probieren sie bitte ein näherliegendes Datum oder probieren sie es demnächst nocheinmal",
-                    comment: "Zu Weit in der Zukunft")
+                    comment: "Zu Weit in der zukunft")
             }
         }
     }
