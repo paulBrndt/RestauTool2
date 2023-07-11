@@ -45,7 +45,6 @@ public class AuthModel: ObservableObject {
     /// - Parameters:
     ///   - bild: Wie soll das Bild aussehen; siehe Codebeispiel
     ///   - platzhalter: Wie soll der Platzhalter aussehen, siehe Codebeispiel
-        @available(iOS 15.0, *)
     public func profilFoto(modifier: @escaping (Image) -> Image, placeholder: @escaping () -> Text) -> ProfileImage<Text> {
         return ProfileImage(user?.profileImageURL, image: modifier, placeholder: placeholder)
         }
@@ -293,7 +292,6 @@ public class AuthModel: ObservableObject {
     }
     
     @available(macOS 13.0, *)
-    @available(iOS 16.0, *)
     /// Eine etwas einfacher gestaltete Version dieser Funktion
     ///
     ///Sie ist aber asynchron und muss so verwendet werden
