@@ -326,7 +326,7 @@ public class AuthModel: ObservableObject {
     ///         }
     ///         if let data = imageData{
     ///                 Button("Weiter"){
-    ///                 tool.auth.ladeProfilFotoHoch(data)
+    ///                 tool.auth.ladeProfilFotoHoch(photosPickerItem)
     ///                 }
     ///         }
     ///     }
@@ -337,6 +337,7 @@ public class AuthModel: ObservableObject {
     ///```swift
     ///@State private var selectedItem: PhotosPickerItem? = nil
     ///var body: some View{
+    ///VStack
     ///         PhotosPicker(selection: $selectedItem){
     ///                 if let data imageData, let image = UIImage(data: data){
     ///                      Image(uiImage: image)
@@ -344,6 +345,12 @@ public class AuthModel: ObservableObject {
     ///                 } else {
     ///                 Text("Placeholder")
     ///                 }
+    ///                 if let data = selectedItem{
+    ///                 Button("Weiter"){
+    ///                 tool.auth.ladeProfilFotoHoch(photosPickerItem)
+    ///                 }
+    ///              }
+    ///         }
     ///     }
     ///}
     ///```
@@ -352,7 +359,7 @@ public class AuthModel: ObservableObject {
     ///
     /// - Parameter pickerItem: Ein ausgewähltes Foto eines PhotoPickers
     public func ladeProfilFotoHoch(_ pickerItem: PhotosPickerItem) async {
-         guard let data = try? await pickerItem.loadTransferable(type: Data.self) else { return }
+        guard let data = try? await pickerItem.loadTransferable(type: Data.self) else { return }
         self.ladeProfilFotoHoch(data)
     }
     
