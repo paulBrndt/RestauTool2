@@ -7,11 +7,17 @@
 
 import SwiftUI
 
+/// Das typische Feld zum Registrieren. Falls du keine fertigen Angeben verwenden möchtest kannst du das``TextFeld``oder das ``PasswortTextfeld``verwenden
 public struct RegistrierenFeld: View{
     @State private var feld: RegistrierenFeldAuftrag
     @State private var placeholder: String?
     @Binding var data: RegistrierenData
     
+    /// Die Initialisierung
+    /// - Parameters:
+    ///   - feld: Welche Aufgabe hat dises Textfeld
+    ///   - platzhalter: Ein optionaler Platzhalter der für dieses Feld verwendet wird
+    ///   - data: Welche Werte sollen bearbeitet werden
     public init(feld: RegistrierenFeldAuftrag, platzhalter: String? = nil, data: Binding<RegistrierenData>) {
         self.feld = feld
         self.placeholder = platzhalter
@@ -20,11 +26,11 @@ public struct RegistrierenFeld: View{
     
     public var body: some View{
         if feld == .email{
-            TextFeld(icon: "envelope", placeholder: placeholder ?? "Email hier eingeben", text: $data.email)
+            TextFeld(icon: feld.icon, placeholder: placeholder ?? feld.placeholder, text: $data.email)
         } else if feld == .name{
-            TextFeld(icon: "person", placeholder: placeholder ?? "Name hier eingeben", text: $data.name)
+            TextFeld(icon: feld.icon, placeholder: placeholder ?? feld.placeholder, text: $data.name)
         } else if feld == .username{
-            TextFeld(icon: "fork.knife", placeholder: placeholder ?? "Öffentlichen Benutzernamen für andere Restaurants hier eingeben", text: $data.username)
+            TextFeld(icon: feld.icon, placeholder: placeholder ?? feld.placeholder, text: $data.username)
         } else if feld == .password{
             PasswordTextfeld(passwort: $data.password)
         } else {
@@ -32,8 +38,6 @@ public struct RegistrierenFeld: View{
         }
     }
 }
-
-
 
 public enum RegistrierenFeldAuftrag: CaseIterable, Identifiable{
     case email
