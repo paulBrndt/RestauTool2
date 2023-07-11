@@ -16,7 +16,7 @@ import PhotosUI
 /// Eine Klasse, die benötigt wird, um einmalige Aktionen, wie z.B. Bild hochladen oder Account löschen oder Dinge zur Authentifizierung, wie z.B. einloggen oder registrieren, auszuführen
 public class AuthModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
-    @Published var didAuthenticatedUser = false
+    @Published public var didAuthenticatedUser = false
     /// Der zurzeit eingeloggte User mit all seinen Infos
     @Published public var user: User?
     
@@ -108,31 +108,8 @@ public class AuthModel: ObservableObject {
     
     
     public func registrieren(mitDaten data: RegistrierenData, completion: @escaping(Error?) -> Void) {
-        Auth.auth().createUser(withEmail: data.email, password: data.password) { result, error in
-            if let error = error {
-                completion(error)
-                return
-            }
-            guard let user = result?.user else { return }
-            self.userSession = user
-            
-            let data = [
-                "email": data.email,
-                "username": data.username.lowercased(),
-                "firstName": data.name,
-                "uid": user.uid,
-            ]
-            Firestore.firestore()
-                .collection("users")
-                    .document(user.uid)
-                        .setData(data){ error in
-                            if let error = error{
-                                print(error.localizedDescription)
-                                return
-                            }
-                            self.didAuthenticatedUser = true
-                            self.fetchUser()
-            }
+        self.registrieren(mitEmail: data.email, username: data.username, name: data.name, password: data.password){ error in
+            completion(error)
         }
     }
     
