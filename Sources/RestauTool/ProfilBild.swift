@@ -8,11 +8,10 @@
 import SwiftUI
 
 @available(macOS 12.0, *)
+@available(iOS 16.0, *)
 
 extension AuthModel{
-    
-    @available(iOS 15.0, *)
-    
+        
     public struct ProfileImage<Content>: View where Content: View {
         let placeholder: () -> Content
         let urlString: String?
