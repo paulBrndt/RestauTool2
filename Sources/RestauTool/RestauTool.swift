@@ -16,6 +16,8 @@ public class RestauTool: ObservableObject{
     public var manager = RestauManager()
     /// Im ``auth``sind Funktionen zum Einloggen und Registrieren, sowie das Profilfoto eines Users...
     public var auth = AuthModel()
+    
+    public init() { }
    
 }
 
