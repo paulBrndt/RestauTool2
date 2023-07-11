@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 
 @available(macOS 10.15, *)
+@available(iOS 16.0, *)
 /// Das RestauTool beinhaltet das ganze Package und wird am besten durch ein ``environmentObject`` an die Views weitergegeben
 public class RestauTool: ObservableObject{
     /// Im ``manager``kann man Gerichte bestellen, Tische reservieren und vieles mehr...

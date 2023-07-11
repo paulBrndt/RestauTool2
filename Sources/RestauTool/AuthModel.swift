@@ -11,6 +11,7 @@ import FirebaseAuth
 import FirebaseStorage
 import PhotosUI
 
+@available(iOS 16.0, *)
 @available(macOS 10.15, *)
 /// Eine Klasse, die benötigt wird, um einmalige Aktionen, wie z.B. Bild hochladen oder Account löschen oder Dinge zur Authentifizierung, wie z.B. einloggen oder registrieren, auszuführen
 public class AuthModel: ObservableObject {
