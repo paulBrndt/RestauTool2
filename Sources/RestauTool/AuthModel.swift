@@ -14,20 +14,7 @@ import PhotosUI
 @available(iOS 16.0, *)
 @available(macOS 10.15, *)
 /// Eine Klasse, die benötigt wird, um einmalige Aktionen, wie z.B. Bild hochladen oder Account löschen oder Dinge zur Authentifizierung, wie z.B. einloggen oder registrieren, auszuführen
-public class AuthModel: ObservableObject {
-    @Published var userSession: FirebaseAuth.User?
-    @Published public var didAuthenticatedUser = false
-    /// Der zurzeit eingeloggte User mit all seinen Infos
-    @Published public var user: User?
-    
-    
-    private let service = UserService()
-    
-    /// Die Initialisierung des AuthModel
-    public init(){
-        self.userSession = Auth.auth().currentUser
-        fetchUser()
-    }
+extension RestauTool{
     
     
     /// Das Profilfoto des angemeldeten Users
@@ -45,8 +32,8 @@ public class AuthModel: ObservableObject {
     /// - Parameters:
     ///   - bild: Wie soll das Bild aussehen; siehe Codebeispiel
     ///   - platzhalter: Wie soll der Platzhalter aussehen, siehe Codebeispiel
-    public func profilFoto(modifier: @escaping (Image) -> Image, placeholder: @escaping () -> Text) -> ProfileImage<Text> {
-        return ProfileImage(user?.profileImageURL, image: modifier, placeholder: placeholder)
+    public func profilFoto(modifier: @escaping (Image) -> Image, placeholder: @escaping () -> Text) -> UrlImage<Text> {
+        return UrlImage(user?.profileImageURL, image: modifier, placeholder: placeholder)
         }
     
     
@@ -97,7 +84,7 @@ public class AuthModel: ObservableObject {
                     .document(user.uid)
                         .setData(data){ error in
                             if let error = error{
-                                print(error.localizedDescription)
+                                completion(error)
                                 return
                             }
                             self.didAuthenticatedUser = true

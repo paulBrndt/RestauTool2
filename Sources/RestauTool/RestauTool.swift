@@ -12,12 +12,23 @@ import Firebase
 @available(iOS 16.0, *)
 /// Das RestauTool beinhaltet das ganze Package und wird am besten durch ein ``environmentObject`` an die Views weitergegeben
 public class RestauTool: ObservableObject{
-    /// Im ``manager``kann man Gerichte bestellen, Tische reservieren und vieles mehr...
-    public var manager = RestauManager()
-    /// Im ``auth``sind Funktionen zum Einloggen und Registrieren, sowie das Profilfoto eines Users...
-    public var auth = AuthModel()
+    /// Alle Tische deines Restaurants, wenn noch keine vorhanden sind, musst du sie mit der Funktion "ladeTischeHoch(_ tische: [Tisch]) hochladen"
+    @Published public var tische = [Tisch]()
+    let tischService = TischService()
     
-    public init() { }
+    let service = UserService()
+    
+    @Published var userSession: FirebaseAuth.User?
+    @Published public var didAuthenticatedUser = false
+    /// Der zurzeit eingeloggte User mit all seinen Infos
+    @Published public var user: User?
+    
+    
+    
+    public init(){
+        self.userSession = Auth.auth().currentUser
+        fetchUser()
+    }
    
 }
 

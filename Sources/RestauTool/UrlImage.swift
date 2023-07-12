@@ -1,5 +1,5 @@
 //
-//  ProfilBild.swift
+//  UrlImage.swift
 //  
 //
 //  Created by Paul Brendtner on 01.07.23.
@@ -10,9 +10,9 @@ import SwiftUI
 @available(macOS 12.0, *)
 @available(iOS 16.0, *)
 
-extension AuthModel{
+extension RestauTool{
         
-    public struct ProfileImage<Content>: View where Content: View {
+    public struct UrlImage<Content>: View where Content: View {
         let placeholder: () -> Content
         let urlString: String?
         let modifier: (Image) -> Image

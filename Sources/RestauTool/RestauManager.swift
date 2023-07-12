@@ -10,18 +10,7 @@ import Firebase
 import FirebaseFirestore
 
 @available(macOS 10.15, *)
-/// Eine Klasse, die benötigt wird um alle Bestellungen zu tätigen
-public class RestauManager: ObservableObject{
-   /// Alle Tische deines Restaurants, wenn noch keine vorhanden sind, musst du sie mit der Funktion "ladeTischeHoch(_ tische: [Tisch]) hochladen"
-    @Published public var tische = [Tisch]()
-    private let tischService = TischService()
-    
-    /// Bei der Initialisierung werden die hochgeladenen Tische, falls sie überhaupt hochgeladen sind, geladen
-    public init(){
-        self.ladeAlleTische()
-    }
-    
-    
+extension RestauTool{
     /// Eine Funktion, die alle Tische, die zu Firebase hochgeladen wurden, mit ihren Bestellungen abruft
 public func ladeAlleTische(){
         tischService.fetchTables { tische in
