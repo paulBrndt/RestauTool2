@@ -14,21 +14,31 @@ struct ReservationService{
             return Calendar.current.dateComponents([.day], from: start, to: end).day!
     }
     
-    func findTableForReservation(date: Date, people: Int) throws {
+    func findTableForReservation(date: Date, people: Int) throws -> String {
         #warning("Falls kein Tisch verfügbar ist ReservationError.schonBelegt benutzen")
         #warning("Auf Anzahl der Personen achten")
         
+        return ""
     }
     
-    func addReservation(forDate date: Date, withHowManyPeople people: Int) throws {
+    func addReservation(at date: Date, withHowManyPeople people: Int) throws {
         if daysBetween(start: Date(), end: date) < 366{
             throw ReservationError.zuWeitImVoraus(abWannBuchbar: Calendar.current.date(byAdding: .year, value: 1, to: Date()))
         }
         
+        var tableUid: String?
+        
+        do {
+            tableUid = try findTableForReservation(date: date, people: people)
+        } catch {
+            throw error
+        }
+        
+        if let tableUid = tableUid{
+            
+        }
+        
+        
     }
-    
-    
-    
-    
     
 }
