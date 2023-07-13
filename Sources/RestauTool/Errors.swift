@@ -12,6 +12,7 @@ public enum ReservationError: Error, LocalizedError{
     case schonBelegt
     case zuWeitImVoraus(abWannBuchbar: Date?)
     case istInVergangenheit
+    case keinEingeloggterUser
     
     public var errorMessage: String{
         switch self {
@@ -40,6 +41,9 @@ public enum ReservationError: Error, LocalizedError{
             }
         case .istInVergangenheit:
             return NSLocalizedString("Leider ist dieser Termin in der Vergangenheit. Wolange sie nicht Zeitreisen können ist es nicht möglich diesen Tisch zu reservieren (-:", comment: "Ist in Vergangenheit")
+            
+        case .keinEingeloggterUser:
+            return NSLocalizedString("Leider ist ein unbekannter Fehler aufgetreten. Stellen sie sicher, dass ein User angemeldet ist.", comment: "Kein angemeldeter User")
         }
     }
 }

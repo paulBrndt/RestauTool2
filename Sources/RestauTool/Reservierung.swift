@@ -13,9 +13,11 @@ public struct Reservierung: Decodable, Identifiable{
     @DocumentID public var id: String?
     public var date: Timestamp
     public var nameOfGuest: String
+    public var people: Int
     
-    public init(date: Timestamp, nameOfGuest: String) {
-        self.date = date
-        self.nameOfGuest = nameOfGuest
+    public init(zeitpunkt: Timestamp, nameDerGäste: String, personen: Int) {
+        self.date = zeitpunkt
+        self.nameOfGuest = nameDerGäste
+        self.people = personen
     }
 }

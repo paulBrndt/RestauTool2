@@ -52,7 +52,8 @@ struct ReservationService{
                 .collection("reservations")
                 .document(id)
                 .setData(["id" : id,
-                 "nameOfGuest" : nameOfGuests,
+                          "nameOfGuest" : nameOfGuests,
+                          "people" : people,
                           "date" : Timestamp(date: date)])
         }
     }
@@ -71,6 +72,7 @@ struct ReservationService{
                 }
                 guard let docs = snapshot?.documents else { return }
                 let reservations = docs.compactMap({ try? $0.data(as: Reservierung.self) })
+                completion(reservations)
             }
     }
     
