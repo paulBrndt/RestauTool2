@@ -21,10 +21,11 @@ let package = Package(
         .target(
             name: "RestauTool",
             dependencies: [
-                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
-                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+//                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
+//                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
 //                .product(name: "FirebaseFirestoreSwift-Beta", package: "firebase-ios-sdk"),
-                .product(name: "FirebaseStorage", package: "firebase-ios-sdk")
+//                .product(name: "FirebaseStorage", package: "firebase-ios-sdk")
+                .product(name: "Firebase", package: "firebase-ios-sdk")
             ],
         path: "Sources/RestauTool"
         )
