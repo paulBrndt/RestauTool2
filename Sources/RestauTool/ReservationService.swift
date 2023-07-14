@@ -28,8 +28,7 @@ struct ReservationService{
     
     
     func addReservation(at date: Date, withHowManyPeople people: Int, nameOfGuests: String) throws {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        #warning("Error message erstellen")
+        guard let uid = Auth.auth().currentUser?.uid else { throw ReservationError.keinEingeloggterUser }
         
         if daysBetween(start: Date(), end: date) > 366{
             throw ReservationError.zuWeitImVoraus(abWannBuchbar: Calendar.current.date(byAdding: .year, value: 1, to: Date()))
