@@ -13,7 +13,7 @@ let package = Package(
             targets: ["RestauTool"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/firebase/firebase-ios-sdk", from: "10.10.0")
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", branch: "master")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -21,14 +21,10 @@ let package = Package(
         .target(
             name: "RestauTool",
             dependencies: [
-                .product(name: "FirebaseAuth", package: "Firebase"),
-                .product(name: "FirebaseFirestore", package: "Firebase"),
-                .product(name: "FirebaseFirestoreSwift-Beta", package: "Firebase"),
-                .product(name: "FirebaseStorage", package: "Firebase")
-//                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
-//                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
-//                .product(name: "FirebaseFirestoreSwift-Beta", package: "firebase-ios-sdk"),
-//                .product(name: "FirebaseStorage", package: "firebase-ios-sdk")
+                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseFirestoreSwift", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseStorage", package: "firebase-ios-sdk")
             ],
         path: "Sources/RestauTool"
         )

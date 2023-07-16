@@ -6,7 +6,6 @@
 //
 
 import Firebase
-import FirebaseFirestoreSwift
 
 struct TischService{
     
