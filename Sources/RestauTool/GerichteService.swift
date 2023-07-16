@@ -17,7 +17,7 @@ struct GerichteService{
             .collection("tables")
             .document(id)
             .collection("orders")
-            .getDocuments { snapshot, error in
+            .addSnapshotListener{ snapshot, error in
                 if let error = error{
                     print(error.localizedDescription)
                     return
