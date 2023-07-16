@@ -57,6 +57,10 @@ extension RestauTool{
     }
     
     
+    public func einloggen(mitDaten data: LoginData, completion: @escaping(Error?) -> Void) {
+        self.einloggen(mitEmail: data.email, password: data.passwort, completion: completion)
+    }
+    
     
     /// Die Registrierung eines neuen Users
     /// - Parameters:
