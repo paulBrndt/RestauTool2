@@ -23,11 +23,17 @@ struct UserService{
                 print("Fetching 2.3")
                 if let snapshot = snapshot{
                     print("Fetching 2.4")
-                    guard let user = try? snapshot.data(as: User.self) else { return }
+                    print("DEBUG: 2.4 snapshot data is: \(snapshot.data() ?? [:])")
+                    do{
+                        let user = try snapshot.data(as: User.self)
+                    
                     print("Fetching 2.5")
                     print("DEBUG: 2.5 User is: \(user)")
                     completion(user)
-                    
+                    } catch {
+                        print(error.localizedDescription)
+                        return
+                    }
                 }
             }
     }
