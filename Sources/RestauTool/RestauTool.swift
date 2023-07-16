@@ -32,3 +32,8 @@ public class RestauTool: ObservableObject{
    
 }
 
+public final class Initialisierung{
+    public static func configure(){
+        FirebaseApp.configure()
+    }
+}
