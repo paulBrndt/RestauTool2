@@ -28,6 +28,7 @@ public class RestauTool: ObservableObject{
     public init(){
         self.userSession = Auth.auth().currentUser
         fetchUser()
+        self.didAuthenticatedUser = self.user == nil ? false : true
     }
    
 }

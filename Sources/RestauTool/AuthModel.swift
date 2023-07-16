@@ -50,6 +50,7 @@ extension RestauTool{
                 return
             }
             guard let user = result?.user else { return }
+            self.didAuthenticatedUser = true
             self.userSession = user
             self.fetchUser()
         }
@@ -347,6 +348,7 @@ extension RestauTool{
          print("usersession.uid = nil")
          return
      }
+     print("Fetching 1")
      self.service.fetchUser(withUid: uid) { user in
          self.user = user
          print("Die User-Daten wurde erfolgreich aktualisiert, die Daten sind jetzt:")

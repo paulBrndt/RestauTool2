@@ -11,13 +11,21 @@ import FirebaseFirestoreSwift
 struct UserService{
     
     public func fetchUser(withUid uid: String, completion: @escaping(User) -> Void){
+        print("Fetching 2.1")
         Firestore.firestore().collection("users")
             .document(uid)
-            .getDocument { snapshot, _ in
+            .getDocument { snapshot, error in
+                print("Fetching 2.2")
+                if let error = error{
+                    print(error.localizedDescription)
+                    return
+                }
+                print("Fetching 2.3")
                 if let snapshot = snapshot{
-                    
+                    print("Fetching 2.4")
                     guard let user = try? snapshot.data(as: StaticUser.self) else { return }
-                    
+                    print("Fetching 2.5")
+                    print("DEBUG: 2.5 StaticUser is: \(user) and User is: \(User(user))")
                     completion(User(user))
                     
                 }

@@ -7,9 +7,10 @@
 
 import Foundation
 import Firebase
+import FirebaseFirestoreSwift
 
-public struct User{
-    public var id: String?
+public struct User: Identifiable{
+    @DocumentID public var id: String?
     public var email: String
     public var username: String
     public var firstName: String
