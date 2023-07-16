@@ -47,7 +47,7 @@ public struct EinklappbarerText: View{
                             ///
                             while ((heigh - low) > 1) {
                                 let attributedText = NSAttributedString(string: shrinkText + moreLessText, attributes: attributes)
-                                let boundingRect = attributedText.boundingRect(with: size, options: NSString.DrawingOptions.usesLineFragmentOrigin, context: nil)
+                                let boundingRect = attributedText.boundingRect(with: size, options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
                                 if boundingRect.size.height > visibleTextGeometry.size.height {
                                     truncated = true
                                     heigh = mid
