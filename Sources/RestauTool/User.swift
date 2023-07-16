@@ -14,7 +14,7 @@ public struct User: Identifiable, Decodable{
     public var email: String
     public var username: String
     public var firstName: String
-    var profileImageURL: String
+    var profileImageURL: String?
     public var tables: [Tisch]?
     
     public var isCurrentUser: Bool {
