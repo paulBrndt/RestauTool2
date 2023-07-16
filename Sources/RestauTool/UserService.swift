@@ -24,16 +24,20 @@ struct UserService{
                 if let snapshot = snapshot{
                     print("Fetching 2.4")
                     print("DEBUG: 2.4 snapshot data is: \(snapshot.data() ?? [:])")
+                    
                     do{
-                        let user = try snapshot.data(as: User.self)
+                        let user: User = try snapshot.data(as: User.self)
                     
                     print("Fetching 2.5")
                     print("DEBUG: 2.5 User is: \(user)")
                     completion(user)
+                        
                     } catch {
-                        print(error.localizedDescription)
+                        print("Error 2.6: \(error.localizedDescription)")
                         return
                     }
+                    
+                    
                 }
             }
     }

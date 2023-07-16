@@ -86,7 +86,7 @@ extension RestauTool{
                 "email": email,
                 "username": username.lowercased(),
                 "firstName": name,
-                "uid": user.uid,
+                "id": user.uid,
             ]
             print("Registrieren 4")
             Firestore.firestore()
