@@ -7,15 +7,10 @@
 
 import SwiftUI
 
-struct WichtigerButton: ViewModifier{
-    var farbe: Color
-    var hintergrund: Color
-    init(farbe: Color, hintergrund: Color){
-        self.farbe = farbe
-        self.hintergrund = hintergrund
-    }
-    func body(content: content) -> View {
-        content
+@available(macOS 13.0, *)
+public extension View{
+    func wichtigerButton(farbe: Color = .white, hintergrund: Color = .blue) -> some View {
+        self
             .font(.headline)
             .fontWeight(.semibold)
             .foregroundColor(farbe)
@@ -24,12 +19,5 @@ struct WichtigerButton: ViewModifier{
             .clipShape(Capsule())
             .padding()
             .shadow(color: .gray.opacity(0.5), radius: 10, x: 0, y: 0)
-    }
-}
-
-
-public extension View{
-    public func wichtigerButton(farbe: Color = .white, hintergrund: Color = .blue) -> some View {
-        modifier(WichtigerButton(farbe: farbe, hintergrund: hintergrund))
     }
 }

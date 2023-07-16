@@ -8,23 +8,21 @@
 import SwiftUI
 
 
-struct EinklappbarerText: View{
+public struct EinklappbarerText: View{
     @State private var expanded: Bool = false
     @State private var truncated: Bool = false
     @State private var shrinkText: String
 
     private var text: String
-    let font: UIFont
     let lineLimit: Int
 
-    init(_ text: String, zeilenLimit: Int, font: UIFont = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)) {
+    public init(_ text: String, zeilenLimit: Int) {
         self.text = text
         _shrinkText =  State(wrappedValue: text)
         self.lineLimit = zeilenLimit
-        self.font = font
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack(alignment: .bottomLeading) {
             Group {
                 Text(self.expanded ? text : shrinkText) + Text(moreLessText)
@@ -49,7 +47,7 @@ struct EinklappbarerText: View{
                             ///
                             while ((heigh - low) > 1) {
                                 let attributedText = NSAttributedString(string: shrinkText + moreLessText, attributes: attributes)
-                                let boundingRect = attributedText.boundingRect(with: size, options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+                                let boundingRect = attributedText.boundingRect(with: size, options: NSString.DrawingOptions.usesLineFragmentOrigin, context: nil)
                                 if boundingRect.size.height > visibleTextGeometry.size.height {
                                     truncated = true
                                     heigh = mid
@@ -73,7 +71,6 @@ struct EinklappbarerText: View{
                     })
                     .hidden() // Hide the background
             )
-            .font(Font(font)) ///set default font
             ///
             if truncated {
                 Button(action: {
