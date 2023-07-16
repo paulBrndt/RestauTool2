@@ -10,7 +10,7 @@ import SwiftUI
 struct WichtigerButton: ViewModifier{
     var farbe: Color
     var hintergrund: Color
-    init(farbe: Color = .white, hintergrund: Color = .blue){
+    init(farbe: Color, hintergrund: Color){
         self.farbe = farbe
         self.hintergrund = hintergrund
     }
