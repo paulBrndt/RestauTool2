@@ -8,6 +8,7 @@
 import SwiftUI
 
 @available(macOS 13.0, *)
+@available(iOS 16.0, *)
 public extension View{
     func wichtigerButton(farbe: Color = .white, hintergrund: Color = .blue) -> some View {
         self
