@@ -23,10 +23,10 @@ struct UserService{
                 print("Fetching 2.3")
                 if let snapshot = snapshot{
                     print("Fetching 2.4")
-                    guard let user = try? snapshot.data(as: StaticUser.self) else { return }
+                    guard let user = try? snapshot.data(as: User.self) else { return }
                     print("Fetching 2.5")
-                    print("DEBUG: 2.5 StaticUser is: \(user) and User is: \(User(user))")
-                    completion(User(user))
+                    print("DEBUG: 2.5 User is: \(user)")
+                    completion(user)
                     
                 }
             }
@@ -36,8 +36,8 @@ struct UserService{
         Firestore.firestore().collection("users")
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else { return }
-                let users = documents.compactMap({try? $0.data(as: StaticUser.self)})
-                completion(users.compactMap({User($0)}))
+                let users = documents.compactMap({try? $0.data(as: User.self)})
+                completion(users)
                 
             }
     }

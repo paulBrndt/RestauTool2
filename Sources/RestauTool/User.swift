@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 
-public struct User: Identifiable{
+public struct User: Identifiable, Decodable{
     @DocumentID public var id: String?
     public var email: String
     public var username: String
@@ -20,13 +20,13 @@ public struct User: Identifiable{
     public var isCurrentUser: Bool {
         Auth.auth().currentUser?.uid == id
     }
-        
-    init(_ user: StaticUser) {
-        self.id = user.id
-        self.email = user.email
-        self.username = user.username
-        self.firstName = user.firstName
-        self.profileImageURL = user.profileImageURL
-        self.tables = user.tables
+     
+    public init(id: String? = nil, email: String, username: String, firstName: String, profileImageURL: String, tables: [Tisch]? = nil) {
+        self.id = id
+        self.email = email
+        self.username = username
+        self.firstName = firstName
+        self.profileImageURL = profileImageURL
+        self.tables = tables
     }
 }
