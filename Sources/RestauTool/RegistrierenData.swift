@@ -7,16 +7,9 @@
 
 import SwiftUI
 
-public class RegistrierenData: ObservableObject{
-    @Published public var email = ""
+public class RegistrierenData: AuthData{
     @Published public var username = ""
     @Published public var name = ""
-    @Published public var password = ""
     
-    public init(email: String = "", username: String = "", name: String = "", password: String = "") {
-        self.email = email
-        self.username = username
-        self.name = name
-        self.password = password
-    }
+    public override init() { }
 }

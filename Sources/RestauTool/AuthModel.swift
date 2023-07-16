@@ -57,7 +57,7 @@ extension RestauTool{
     }
     
     
-    public func einloggen(mitDaten data: LoginData, completion: @escaping(Error?) -> Void) {
+    public func einloggen(mitDaten data: AuthData, completion: @escaping(Error?) -> Void) {
         self.einloggen(mitEmail: data.email, password: data.passwort, completion: completion)
     }
     
@@ -100,7 +100,7 @@ extension RestauTool{
     
     
     public func registrieren(mitDaten data: RegistrierenData, completion: @escaping(Error?) -> Void) {
-        self.registrieren(mitEmail: data.email, username: data.username, name: data.name, password: data.password, completion: completion)
+        self.registrieren(mitEmail: data.email, username: data.username, name: data.name, password: data.passwort, completion: completion)
     }
     
     

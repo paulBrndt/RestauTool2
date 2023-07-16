@@ -7,9 +7,6 @@
 
 import Foundation
 
-public class LoginData: ObservableObject{
-    @Published public var email = ""
-    @Published public var passwort = ""
-    
-    public init() {}
+public class LoginData: AuthData{
+    public override init() { }
 }
