@@ -71,28 +71,35 @@ extension RestauTool{
                 completion(error)
                 return
             }
+            print("Registrieren 1")
             guard let user = result?.user else {
                 print("No result in registrieren")
                 return
                 
             }
+            print("Registrieren 2")
             self.userSession = user
             
+            print("Registrieren 3")
             let data = [
                 "email": email,
                 "username": username.lowercased(),
                 "firstName": name,
                 "uid": user.uid,
             ]
+            print("Registrieren 4")
             Firestore.firestore()
                 .collection("users")
                     .document(user.uid)
                         .setData(data){ error in
+                            print("Registrieren 5")
                             if let error = error{
                                 completion(error)
                                 return
                             }
+                            print("Registrieren 6")
                             self.didAuthenticatedUser = true
+                            print("Registrieren 7")
                             self.fetchUser()
             }
         }
@@ -334,7 +341,8 @@ extension RestauTool{
     
     
     
- func fetchUser(){
+ public func fetchUser(){
+     print("Starts fetchingUser")
      guard let uid = userSession?.uid else {
          print("usersession.uid = nil")
          return
