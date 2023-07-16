@@ -66,41 +66,29 @@ extension RestauTool{
     ///   - password: Das gewählte Passwort
     ///   - completion: Falls es einen Fehler gibt wird er hier zurückgegeben
     public func registrieren(mitEmail email: String, username: String, name: String, password: String, completion: @escaping(Error?) -> Void) {
-        print("Starte registrieren")
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
                 completion(error)
                 return
             }
-            print("Registrieren 1")
-            guard let user = result?.user else {
-                print("No result in registrieren")
-                return
-                
-            }
-            print("Registrieren 2")
+            guard let user = result?.user else { return }
             self.userSession = user
             
-            print("Registrieren 3")
             let data = [
                 "email": email,
                 "username": username.lowercased(),
                 "firstName": name,
                 "id": user.uid,
             ]
-            print("Registrieren 4")
             Firestore.firestore()
                 .collection("users")
                     .document(user.uid)
                         .setData(data){ error in
-                            print("Registrieren 5")
                             if let error = error{
                                 completion(error)
                                 return
                             }
-                            print("Registrieren 6")
                             self.didAuthenticatedUser = true
-                            print("Registrieren 7")
                             self.fetchUser()
             }
         }
@@ -343,19 +331,9 @@ extension RestauTool{
     
     
  public func fetchUser(){
-     print("Starts fetchingUser")
-     guard let uid = userSession?.uid else {
-         print("usersession.uid = nil")
-         return
-     }
-     print("Fetching 1")
+     guard let uid = userSession?.uid else { return }
      self.service.fetchUser(withUid: uid) { user in
          self.user = user
-         print("Die User-Daten wurde erfolgreich aktualisiert, die Daten sind jetzt:")
-         print("E-Mail -> \(user.email)")
-         print("Name -> \(user.firstName)")
-         print("Username -> \(user.username)")
-         print("ENDE DER AUFZÄLUNG")
         }
     }
     
