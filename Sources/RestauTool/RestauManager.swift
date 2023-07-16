@@ -10,6 +10,7 @@ import Firebase
 import FirebaseFirestore
 
 @available(macOS 10.15, *)
+@available(iOS 16.0, *)
 extension RestauTool{
     /// Eine Funktion, die alle Tische, die zu Firebase hochgeladen wurden, mit ihren Bestellungen abruft
 public func ladeAlleTische(){
