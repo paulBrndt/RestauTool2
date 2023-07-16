@@ -65,12 +65,17 @@ extension RestauTool{
     ///   - password: Das gewählte Passwort
     ///   - completion: Falls es einen Fehler gibt wird er hier zurückgegeben
     public func registrieren(mitEmail email: String, username: String, name: String, password: String, completion: @escaping(Error?) -> Void) {
+        print("Starte registrieren")
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
                 completion(error)
                 return
             }
-            guard let user = result?.user else { return }
+            guard let user = result?.user else {
+                print("No result in registrieren")
+                return
+                
+            }
             self.userSession = user
             
             let data = [
@@ -95,9 +100,7 @@ extension RestauTool{
     
     
     public func registrieren(mitDaten data: RegistrierenData, completion: @escaping(Error?) -> Void) {
-        self.registrieren(mitEmail: data.email, username: data.username, name: data.name, password: data.password){ error in
-            completion(error)
-        }
+        self.registrieren(mitEmail: data.email, username: data.username, name: data.name, password: data.password, completion: completion)
     }
     
     
@@ -332,7 +335,10 @@ extension RestauTool{
     
     
  func fetchUser(){
-     guard let uid = userSession?.uid else { return }
+     guard let uid = userSession?.uid else {
+         print("usersession.uid = nil")
+         return
+     }
      self.service.fetchUser(withUid: uid) { user in
          self.user = user
          print("Die User-Daten wurde erfolgreich aktualisiert, die Daten sind jetzt:")
@@ -349,7 +355,7 @@ extension RestauTool{
     ///   - user: Die neuen Daten in Form der ``User``-Klasse
     ///   - completion: Falls es einen Fehler gibt wird er hier zurückgegeben
    
-    public func aktualisiereUser(_ user: User, completion: @escaping(Error?) -> Void){
+    public func aktualisiereUserDaten(_ user: User, completion: @escaping(Error?) -> Void){
         self.service.updateUserData(to: user) { user, error in
             if let error = error{
                 completion(error)
