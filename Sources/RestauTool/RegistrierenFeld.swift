@@ -32,7 +32,7 @@ public struct RegistrierenFeld: View{
         } else if feld == .username{
             TextFeld(icon: feld.icon, placeholder: placeholder ?? feld.placeholder, text: $data.username)
         } else if feld == .password{
-            PasswordTextfeld(passwort: $data.password)
+            PasswordTextfeld(passwort: $data.passwort)
         } else {
             EmptyView()
         }
