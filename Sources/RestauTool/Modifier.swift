@@ -41,8 +41,9 @@ public extension Image{
     }
 }
 
-
-extension View{
+@available(macOS 13.0, *)
+@available(iOS 16.0, *)
+public extension View{
     func platzhalter(größe: CGFloat = 56) -> some View {
         return Circle()
                 .foregroundColor(.gray)
