@@ -60,7 +60,7 @@ struct TischService{
             .collection("tables")
         
         for i in 0..<tische.count{
-            let id = UUID().uuidString
+            let id = tische[i].id ?? UUID().uuidString
             let data = [
                 "id" : id,
                 "name" : tische[i].name,
