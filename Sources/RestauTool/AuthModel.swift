@@ -32,7 +32,7 @@ extension RestauTool{
     /// - Parameters:
     ///   - bild: Wie soll das Bild aussehen; siehe Codebeispiel
     ///   - platzhalter: Wie soll der Platzhalter aussehen, siehe Codebeispiel
-    public func profilFoto(modifier: @escaping (Image) -> Image, placeholder: @escaping () -> Text) -> UrlImage<Text> {
+    public func profilFoto(modifier: @escaping (Image) -> Image, placeholder: @escaping () -> some View) -> UrlImage<some View> {
         return UrlImage(user?.profileImageURL, image: modifier, placeholder: placeholder)
         }
     
