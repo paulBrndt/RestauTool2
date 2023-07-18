@@ -30,8 +30,11 @@ public extension View{
             .padding(.bottom, 18)
     }
 }
+
+
+@available(macOS 13.0, *)
+@available(iOS 16.0, *)
 public extension Image{
-    
     func profileImage(größe: CGFloat = 56) -> some View {
                 self
                     .resizable()
@@ -40,6 +43,8 @@ public extension Image{
                     .frame(width: größe, height: größe)
     }
 }
+
+
 
 @available(macOS 13.0, *)
 @available(iOS 16.0, *)
