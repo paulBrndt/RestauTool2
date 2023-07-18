@@ -21,12 +21,8 @@ public extension View{
             .padding()
             .shadow(color: .gray.opacity(0.5), radius: 10, x: 0, y: 0)
     }
-}
 
-
-@available(macOS 13.0, *)
-@available(iOS 16.0, *)
-public extension View{
+    
     func authPadding() -> some View {
         self
             .padding(.top, 36)

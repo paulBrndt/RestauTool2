@@ -35,6 +35,7 @@ public struct Tisch: Identifiable, Decodable{
         self.name = name
         self.personen = personen
         self.isBesetzt = false
+        self.id = UUID().uuidString
     }
     
     
