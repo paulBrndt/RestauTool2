@@ -21,12 +21,31 @@ public extension View{
             .padding()
             .shadow(color: .gray.opacity(0.5), radius: 10, x: 0, y: 0)
     }
-
+    
     
     func authPadding() -> some View {
         self
             .padding(.top, 36)
             .padding(.horizontal, 36)
             .padding(.bottom, 18)
+    }
+}
+public extension Image{
+    
+    func profileImage(größe: CGFloat = 56) -> some View {
+                self
+                    .resizable()
+                    .scaledToFill()
+                    .clipShape(Circle())
+                    .frame(width: größe, height: größe)
+    }
+}
+
+
+extension View{
+    func platzhalter(größe: CGFloat = 56) -> some View {
+        return Circle()
+                .foregroundColor(.gray)
+                .frame(width: größe, height: größe)
     }
 }
