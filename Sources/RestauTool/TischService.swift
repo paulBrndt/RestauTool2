@@ -53,19 +53,21 @@ struct TischService{
     }
     
     
-    public func uploadTables(_ tische: [Tisch], completion: @escaping([Tisch]) -> Void){
+    
+     public func uploadTables(_ tische: [Tisch], completion: @escaping([Tisch]) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let ref = Firestore.firestore().collection("users")
             .document(uid)
             .collection("tables")
-        
+
         for i in 0..<tische.count{
-            let id = tische[i].id ?? UUID().uuidString
+            let currentRef = ref.document()
+            let id = currentRef.documentID
             let data = [
                 "id" : id,
                 "name" : tische[i].name,
                 "isBesetzt" : tische[i].isBesetzt] as [String : Any]
-            ref.document(id).setData(data) { error in
+            currentRef.setData(data) { error in
                 if let error = error{
                     print(error.localizedDescription)
                     return
@@ -76,7 +78,7 @@ struct TischService{
             completion(tische)
         }
     }
-    
-    
-    
+
+
+
 }

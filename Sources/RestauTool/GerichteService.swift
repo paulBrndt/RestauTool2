@@ -28,7 +28,7 @@ struct GerichteService{
         }
     }
     
-//    func uploadAllGerichte(forTable tableId: String, gerichte: [Gericht], completion: @escaping() -> Void){
+//    func uploadAlleGerichte(forTable tableId: String, gerichte: [Gericht], completion: @escaping() -> Void){
 //        
 //        guard let uid = Auth.auth().currentUser?.uid else { return }
 //        
