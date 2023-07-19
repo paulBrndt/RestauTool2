@@ -15,10 +15,10 @@ extension RestauTool{
     public struct UrlImage<Content>: View where Content: View {
         let placeholder: () -> Content
         let urlString: String?
-        let modifier: (Image) -> Image
+        let modifier: (Image) -> Content
         
         public init(_ url: String?,
-                    image: @escaping (Image) -> Image,
+                    image: @escaping (Image) -> Content,
                     @ViewBuilder placeholder: @escaping () -> Content) {
             self.placeholder = placeholder
             self.urlString = url
