@@ -56,4 +56,16 @@ public extension FileManager {
             return nil
         }
     }
+    
+    @discardableResult
+       static func deleteFile(mitDemNamen filename: String) -> Bool {
+           let fileURL = FileManager.documentDirectoryURL.appendingPathComponent(filename)
+           do {
+               try FileManager.default.removeItem(at: fileURL)
+               return true
+           } catch {
+               print("Fehler beim Löschen der Datei: \(error)")
+               return false
+           }
+       }
 }

@@ -20,12 +20,14 @@ struct PasswordTextfeld: View {
     var body: some View {
         VStack {
             HStack{
-                Image(systemName: icon)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20, height: 20)
-                    .foregroundColor(Color(.darkGray))
-                if showsPassword || passwort.isEmpty {
+                if !passwort.isEmpty{
+                    Image(systemName: icon)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color(.darkGray))
+                }
+                if showsPassword {
                     TextField("Passwort eingeben", text: $passwort)
                         .autocorrectionDisabled()
                 } else {
