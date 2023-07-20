@@ -33,7 +33,7 @@ extension RestauTool{
     ///   - bild: Wie soll das Bild aussehen; siehe Codebeispiel
     ///   - platzhalter: Wie soll der Platzhalter aussehen, siehe Codebeispiel
     @available(macOS 13.0, *)
-    public func profilFoto<Content>(modifier: @escaping (Image) -> Content, placeholder: @escaping () -> Content) -> UrlImage<Content> {
+    public func profilFoto<Content>(modifier: @escaping (Image) -> Content) -> UrlImage<Content> {
         return UrlImage(user?.profileImageURL, image: modifier)
         }
     
