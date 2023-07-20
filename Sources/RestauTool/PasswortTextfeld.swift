@@ -25,12 +25,14 @@ struct PasswordTextfeld: View {
                     .scaledToFit()
                     .frame(width: 20, height: 20)
                     .foregroundColor(Color(.darkGray))
-                if showsPassword{
+                if showsPassword || passwort.isEmpty {
                     TextField("Passwort eingeben", text: $passwort)
                         .autocorrectionDisabled()
-                }else{
+                } else {
                     SecureField("Passwort eingeben", text: $passwort)
+                        .padding(.bottom, 1)
                         .autocorrectionDisabled()
+                }
                     Button{
                         withAnimation(.linear(duration: 0.175)){
                             showsPassword.toggle()
@@ -39,7 +41,6 @@ struct PasswordTextfeld: View {
                         Image(systemName: showsPassword ? "eye.slash" : "eye")
                     }
                     .foregroundColor(.gray)
-                }
             }
                 Divider()
                     .background(Color(.gray))

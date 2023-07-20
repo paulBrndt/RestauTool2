@@ -22,7 +22,7 @@ public struct Tisch: Identifiable, Decodable{
     public var personen: Int
     
     /// Der optionale und totale Preis aller Gerichte - wenn keine Gerichte vorhanden sind entspricht er nil
-    public var totalPreis: Double?{
+    public var totalPreis: Double? {
         guard let liste = self.gerichte else { return nil }
         return liste.compactMap({$0.preis}).reduce(0, +)
     }
@@ -35,7 +35,6 @@ public struct Tisch: Identifiable, Decodable{
         self.name = name
         self.personen = personen
         self.isBesetzt = false
-        self.id = UUID().uuidString
     }
     
     
