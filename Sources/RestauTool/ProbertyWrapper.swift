@@ -6,35 +6,19 @@
 //
 
 import Foundation
+import SwiftUI
+
+
 
 @propertyWrapper
-/// Ein Speicher
-///
-/// Verwendung:
-///
-///```swift
-///struct MyData: Codable {
-/// var name: String
-/// var age: Int
-///}
-///
-///struct MyViewModel {
-/// @CodableStorage("myData.json")
-/// var myData: MyData?
-///}
-///
-///```
-///
-///Wichtig ist hierbei, dass deine klasse dem Codable-Protokoll entsoricht.
-public struct Speicher<T> where T: Codable{
+public struct CodableSpeicher<T> where T: Codable{
     private let filename: String
-    
-    public var wrappedValue: T? {
+    public var wrappedValue: T?{
         get {
             return FileManager.loadObject(mitName: filename)
         }
-        set {
-            if let newValue = newValue {
+        nonmutating set {
+            if let newValue = newValue{
                 FileManager.saveObject(newValue, mitDemNamen: filename)
             } else {
                 FileManager.deleteFile(mitDemNamen: filename)
@@ -43,9 +27,58 @@ public struct Speicher<T> where T: Codable{
     }
     
     
-    /// Erstelle eine Variable, die gespeichert wird..
-    /// - Parameter filename: Der Ort, wo die Datei gespeichert werden soll. Bitte <b>ohne</b> Dateiendung angeben
+    public var projectedValue: Binding<T?>{
+        Binding<T?>(
+            get: {self.wrappedValue},
+            set: {self.wrappedValue = $0}
+        )
+    }
+    
+    
     public init(_ filename: String) {
-        self.filename = "\(filename).json"
+        self.filename = filename
     }
 }
+
+
+@propertyWrapper
+public struct FirebaseTable{
+    public var wrappedValue: [Tisch]?{
+        get {
+            return self.fetchTables()
+        }
+        nonmutating set {
+            if let newValue = newValue {
+                self.uploadTables(newValue)
+            }
+        }
+    }
+    
+    
+    public var projectedValue: Binding<[Tisch]?> {
+           Binding<[Tisch]?>(
+               get: { self.wrappedValue },
+               set: { self.wrappedValue = $0 }
+           )
+       }
+    
+    private func uploadTables(_ tische: [Tisch]){
+        let service = TischService()
+        service.uploadTables(tische) { _ in }
+    }
+    
+    private func fetchTables() -> [Tisch]{
+        var tables: [Tisch] = []
+        let service = TischService()
+        service.fetchTables{ tische in
+            tables = tische
+        }
+        return tables
+    }
+    
+    public init() {}
+}
+
+
+
+// WEAK

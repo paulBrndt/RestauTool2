@@ -54,31 +54,40 @@ struct TischService{
     
     
     
-     public func uploadTables(_ tische: [Tisch], completion: @escaping([Tisch]) -> Void){
+     public func uploadSingleTisch(_ tisch: Tisch, completion: @escaping(Tisch) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let ref = Firestore.firestore().collection("users")
             .document(uid)
             .collection("tables")
 
-        for i in 0..<tische.count{
             let currentRef = ref.document()
             let id = currentRef.documentID
             let data = [
                 "id" : id,
-                "name" : tische[i].name,
-                "isBesetzt" : tische[i].isBesetzt] as [String : Any]
+                "name" : tisch.name,
+                "isBesetzt" : tisch.isBesetzt] as [String : Any]
             currentRef.setData(data) { error in
                 if let error = error{
                     print(error.localizedDescription)
                     return
                 }
             }
+         self.fetchTable(forUid: id, completion: completion)
+    }
+
+
+    public func uploadTables(_ tische: [Tisch], completion: @escaping([Tisch]) -> Void){
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let ref = Firestore.firestore().collection("users")
+            .document(uid)
+            .collection("tables")
+
+        for tisch in tische {
+            self.uploadSingleTisch(tisch) { _ in }
         }
         self.fetchTables { tische in
             completion(tische)
         }
     }
-
-
 
 }

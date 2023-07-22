@@ -26,14 +26,13 @@ public extension FileManager {
     ///   - name: Der Name, wo du die Datei speichern möchtest. Er muss mit ".json" enden.
     /// - Returns: Der Name, wo die Datei gespeichert wurde. Wenn du die ``loadObject`` Funktion aufrufst, musst du als "mitName" diesen Wert eingeben
     static func saveObject<T: Codable>(_ object: T, mitDemNamen name: String?) -> String? {
-        let uniqueFilename = generateUniqueFilename()
-        let filename = name ?? uniqueFilename
+        let filename = name ?? generateUniqueFilename()
         let fileURL = FileManager.documentDirectoryURL.appendingPathComponent(filename)
         
         do {
             let data = try JSONEncoder().encode(object)
             try data.write(to: fileURL)
-            return name ?? uniqueFilename
+            return filename
         } catch {
             print("Fehler beim Speichern des Objekts: \(error)")
             return nil
