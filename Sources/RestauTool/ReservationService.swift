@@ -17,17 +17,33 @@ struct ReservationService{
     
     
     
-    func findTableForReservation(date: Date, people: Int) throws -> String {
-        #warning("Falls kein Tisch verfügbar ist ReservationError.schonBelegt benutzen")
-        #warning("Auf Anzahl der Personen achten")
+    func findTableForReservation(date: Date, people: Int, tische: inout [Tisch]) throws -> String {
         
-        return ""
+        let availableTables = tische.filter { $0.isBesetzt == false && $0.personen >= people }
+
+            // Überprüfen, ob es passende Tische gibt
+            guard !availableTables.isEmpty else {
+                throw ReservationError.zuVieleLeute
+            }
+
+            var tableFound = false
+            
+            // Überprüfen, ob die Tische zur gewünschten Zeit reserviert sind
+            for table in availableTables {
+                let isAlreadyReserved = table.reservierungen.contains { $0.date.dateValue() == date }
+                if !isAlreadyReserved, let id = table.id {
+                    tableFound = true
+                    return id
+                }
+            }
+            
+            if !tableFound {
+                throw ReservationError.schonBelegt
+            }
     }
     
     
-    
-    
-    func addReservation(at date: Date, withHowManyPeople people: Int, nameOfGuests: String) throws {
+    func addReservation(at date: Date, withHowManyPeople people: Int, nameOfGuests: String, tische: inout [Tisch]) throws {
         guard let uid = Auth.auth().currentUser?.uid else { throw ReservationError.keinEingeloggterUser }
         
         if daysBetween(start: Date(), end: date) > 366{
@@ -37,22 +53,29 @@ struct ReservationService{
         var tableUid: String?
         
         do {
-            tableUid = try findTableForReservation(date: date, people: people)
+            tableUid = try findTableForReservation(date: date, people: people, tische: &tische)
         } catch {
             throw error
         }
         
         if let tableUid = tableUid{
-            let id = UUID().uuidString
-            Firestore.firestore().collection("users").document(uid)
+            let ref = Firestore.firestore().collection("users").document(uid)
                 .collection("tables")
                 .document(tableUid)
                 .collection("reservations")
-                .document(id)
+                .document()
+            
+            let id = ref.documentID
+            
+            ref
                 .setData(["id" : id,
                           "nameOfGuest" : nameOfGuests,
                           "people" : people,
-                          "date" : Timestamp(date: date)])
+                          "date" : Timestamp(date: date)]) { error in
+                    if let error = error{
+                        
+                    }
+                }
         }
     }
     

@@ -21,6 +21,8 @@ public struct Tisch: Identifiable, Decodable{
     /// Personen, die an diesem Tisch Platz haben
     public var personen: Int
     
+    public var reservierungen: [Reservierung]
+    
     /// Der optionale und totale Preis aller Gerichte - wenn keine Gerichte vorhanden sind entspricht er nil
     public var totalPreis: Double? {
         guard let liste = self.gerichte else { return nil }
