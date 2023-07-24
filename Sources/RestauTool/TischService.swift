@@ -44,8 +44,13 @@ struct TischService{
                 
                 for i in 0..<tische.count{
                     guard let id = tische[i].id else { break }
-                    service.fetchGerichte(forTable: id) { gerichte in
-                        tische[i].gerichte = gerichte
+                    service.fetchGerichte(forTable: id) { result in
+                        switch result{
+                        case .success(let gerichte):
+                            tische[i].gerichte = gerichte
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
                     }
                 }
                 completion(tische)
