@@ -16,14 +16,13 @@ struct ReservationService{
     }
     
     
-    
-    func findTableForReservation(date: Date, people: Int, tische: inout [Tisch]) throws -> String {
+    func findTableForReservation(date: Date, people: Int, tische: inout [Tisch]) -> Result<String, Error> {
         
         let availableTables = tische.filter { $0.isBesetzt == false && $0.personen >= people }
 
             // Überprüfen, ob es passende Tische gibt
             guard !availableTables.isEmpty else {
-                throw ReservationError.zuVieleLeute
+                return .failure(ReservationError.zuVieleLeute)
             }
 
             var tableFound = false
@@ -33,29 +32,34 @@ struct ReservationService{
                 let isAlreadyReserved = table.reservierungen.contains { $0.date.dateValue() == date }
                 if !isAlreadyReserved, let id = table.id {
                     tableFound = true
-                    return id
+                    return .success(id)
                 }
             }
             
             if !tableFound {
-                throw ReservationError.schonBelegt
+                return .failure(ReservationError.schonBelegt)
             }
     }
     
     
-    func addReservation(at date: Date, withHowManyPeople people: Int, nameOfGuests: String, tische: inout [Tisch]) throws {
-        guard let uid = Auth.auth().currentUser?.uid else { throw ReservationError.keinEingeloggterUser }
+    func addReservation(at date: Date, withHowManyPeople people: Int, nameOfGuests: String, tische: inout [Tisch], completion: @escaping(Result<Reservierung, Error>) -> Void)  {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            completion(.failure(ReservationError.keinEingeloggterUser))
+            return }
         
         if daysBetween(start: Date(), end: date) > 366{
-            throw ReservationError.zuWeitImVoraus(abWannBuchbar: Calendar.current.date(byAdding: .year, value: 1, to: Date()))
+            completion(.failure(ReservationError.zuWeitImVoraus(abWannBuchbar: Calendar.current.date(byAdding: .year, value: 1, to: Date()))))
+            return
         }
         
         var tableUid: String?
         
-        do {
-            tableUid = try findTableForReservation(date: date, people: people, tische: &tische)
-        } catch {
-            throw error
+        switch findTableForReservation(date: date, people: people, tische: &tische){
+        case .failure(let error):
+            completion(.failure(error))
+            return
+        case .success(let id):
+            tableUid = id
         }
         
         if let tableUid = tableUid{
@@ -72,15 +76,22 @@ struct ReservationService{
                           "nameOfGuest" : nameOfGuests,
                           "people" : people,
                           "date" : Timestamp(date: date)]) { error in
-                    if let error = error{
-                        
+                    self.fetchReservation(forTable: tableUid, forResId: id) { result in
+                        switch result{
+                        case .failure(let error):
+                            completion(.failure(error))
+                        case .success(let reservierung):
+                            completion(.success(reservierung))
+                        }
                     }
                 }
+        } else {
+            completion(.failure(ReservationError.schonBelegt))
         }
     }
     
     
-    func fetchReservations(forTable tableUid: String, completion: @escaping([Reservierung]) -> Void){
+    func fetchReservations(forTable tableUid: String, completion: @escaping(Result<[Reservierung], Error>) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Firestore.firestore().collection("users").document(uid)
             .collection("tables")
@@ -88,12 +99,28 @@ struct ReservationService{
             .collection("reservations")
             .getDocuments { snapshot, error in
                 if let error = error{
-                    print(error.localizedDescription)
-                    return
+                    completion(.failure(FirestoreError(error)))
                 }
                 guard let docs = snapshot?.documents else { return }
                 let reservations = docs.compactMap({ try? $0.data(as: Reservierung.self) })
-                completion(reservations)
+                completion(.success(reservations))
+            }
+    }
+    
+    
+    func fetchReservation(forTable tableUid: String, forResId id: String, completion: @escaping(Result<Reservierung, Error>) -> Void){
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Firestore.firestore().collection("users").document(uid)
+            .collection("tables")
+            .document(tableUid)
+            .collection("reservations")
+            .document(id)
+            .getDocument { snapshot, error in
+                if let error = error{
+                    completion(.failure(FirestoreError(error)))
+                }
+                guard let reservation = try? snapshot?.data(as: Reservierung.self) else { return }
+                completion(.success(reservation))
             }
     }
     

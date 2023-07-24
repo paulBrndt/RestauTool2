@@ -37,6 +37,7 @@ public struct Tisch: Identifiable, Decodable{
         self.name = name
         self.personen = personen
         self.isBesetzt = false
+        self.reservierungen = []
     }
     
     
@@ -45,14 +46,18 @@ public struct Tisch: Identifiable, Decodable{
         
         let service = GerichteService()
         
-        var mutableSelf = self
-            
-            service.uploadGericht(gericht, toTable: uid) { gerichteNeu in
-                mutableSelf.gerichte = gerichteNeu
+        var mutable = self
+                    
+            service.uploadGericht(gericht, toTable: uid) { result in
+                switch result{
+                case .failure(let error):
+                    print(error.localizedDescription)
+                case .success(let gerichte):
+                    mutable.gerichte = gerichte
+                }
             }
-            
-            self = mutableSelf
-    }
+        self = mutable
+        }
     
     
     public mutating func gerichtIstGekommen(_ gericht: Gericht, istGekommen state: Bool = true) {
@@ -64,7 +69,12 @@ public struct Tisch: Identifiable, Decodable{
                gerichte[index].istSchonGekommen = state
 
                service.gerichtFinished(gerichte[index], changedTo: state) { updatedGericht in
-                   gerichte[index] = updatedGericht
+                   switch updatedGericht{
+                   case .failure(let error):
+                       print(error.localizedDescription)
+                   case .success(let gericht):
+                       gerichte[index] = gericht
+                   }
                }
            }
 

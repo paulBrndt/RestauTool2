@@ -15,7 +15,7 @@ public class RestauTool: ObservableObject{
     /// Alle Tische deines Restaurants, wenn noch keine vorhanden sind, musst du sie mit der Funktion "ladeTischeHoch(_ tische: [Tisch]) hochladen"
     @Published public var tische = [Tisch]()
     let tischService = TischService()
-    
+    let reserService = ReservationService()
     let service = UserService()
     
     @Published var userSession: FirebaseAuth.User?

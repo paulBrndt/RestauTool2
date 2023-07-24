@@ -44,7 +44,7 @@ extension RestauTool{
     ///   - password: Das hinterlegte Passwort
     ///   - completion: Falls es einen Fehler gibt wird er hier zurückgegeben
     
-    public func einloggen(mitEmail email: String, password: String, completion: @escaping(AuthError?) -> Void) {
+    public func einloggen(mitEmail email: String, password: String, completion: @escaping(Error?) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error{
                 completion(AuthError(error))
@@ -58,7 +58,7 @@ extension RestauTool{
     }
     
     
-    public func einloggen(mitDaten data: AuthData, completion: @escaping(AuthError?) -> Void) {
+    public func einloggen(mitDaten data: AuthData, completion: @escaping(Error?) -> Void) {
         self.einloggen(mitEmail: data.email, password: data.passwort, completion: completion)
     }
     
@@ -70,7 +70,7 @@ extension RestauTool{
     ///   - name: Der Name des Restaurants
     ///   - password: Das gewählte Passwort
     ///   - completion: Falls es einen Fehler gibt wird er hier zurückgegeben
-    public func registrieren(mitEmail email: String, username: String, name: String, password: String, completion: @escaping(AuthError?) -> Void) {
+    public func registrieren(mitEmail email: String, username: String, name: String, password: String, completion: @escaping(Error?) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
                 completion(AuthError(error))
@@ -90,7 +90,7 @@ extension RestauTool{
                     .document(user.uid)
                         .setData(data){ error in
                             if let error = error{
-                                completion(AuthError(error))
+                                completion(FirestoreError(error))
                                 return
                             }
                             self.didAuthenticatedUser = true
@@ -100,7 +100,7 @@ extension RestauTool{
     }
     
     
-    public func registrieren(mitDaten data: RegistrierenData, completion: @escaping(AuthError?) -> Void) {
+    public func registrieren(mitDaten data: RegistrierenData, completion: @escaping(Error?) -> Void) {
         self.registrieren(mitEmail: data.email, username: data.username, name: data.name, password: data.passwort, completion: completion)
     }
     

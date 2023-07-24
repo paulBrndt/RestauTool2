@@ -12,6 +12,7 @@ import FirebaseFirestore
 @available(macOS 10.15, *)
 @available(iOS 16.0, *)
 extension RestauTool{
+    
     /// Eine Funktion, die alle Tische, die zu Firebase hochgeladen wurden, mit ihren Bestellungen abruft
 public func ladeAlleTische(){
         tischService.fetchTables { tische in
@@ -25,5 +26,10 @@ public func ladeAlleTische(){
         tischService.uploadTables(tische) { tische in
             self.tische = tische
         }
+    }
+    
+    
+    public func reserviereTisch(um date: Date, mitDemNamen name: String, anzahl: Int, completion: @escaping(Result<Reservierung, Error>) -> Void){
+        reserService.addReservation(at: date, withHowManyPeople: anzahl, nameOfGuests: name, tische: &self.tische, completion: completion)
     }
 }

@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 struct GerichteService{
     
-    func fetchGerichte(forTable id: String, completion: @escaping([Gericht]) -> Void){
+    func fetchGerichte(forTable id: String, completion: @escaping(Result<[Gericht], Error>) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         Firestore.firestore().collection("users").document(uid)
@@ -19,12 +19,12 @@ struct GerichteService{
             .collection("orders")
             .addSnapshotListener{ snapshot, error in
                 if let error = error{
-                    print(error.localizedDescription)
+                    completion(.failure(FirestoreError(error)))
                     return
                 }
                 guard let doc = snapshot?.documents else { return }
                 let gerichte = doc.compactMap({try? $0.data(as: Gericht.self)})
-                completion(gerichte)
+                completion(.success(gerichte))
         }
     }
     
@@ -46,7 +46,7 @@ struct GerichteService{
 //        }
 //    }
     
-    func fetchGericht(forTable id: String, forOrderId orderId: String, completion: @escaping(Gericht) -> Void){
+    func fetchGericht(forTable id: String, forOrderId orderId: String, completion: @escaping(Result<Gericht, Error>) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         Firestore.firestore().collection("users").document(uid)
@@ -56,16 +56,16 @@ struct GerichteService{
             .document(orderId)
             .getDocument { snapshot, error in
                 if let error = error{
-                    print(error.localizedDescription)
+                    completion(.failure(FirestoreError(error)))
                     return
                 }
                 guard let doc = snapshot else { return }
                 guard let gericht = try? doc.data(as: Gericht.self) else { return }
-                completion(gericht)
+                completion(.success(gericht))
         }
     }
     
-    func uploadGericht(_ order: Gericht, toTable table: String, completion: @escaping([Gericht]) -> Void){
+    func uploadGericht(_ order: Gericht, toTable table: String, completion: @escaping(Result<[Gericht], Error>) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         let id = UUID().uuidString
@@ -85,7 +85,7 @@ struct GerichteService{
             .document(id)
             .setData(data) { error in
                 if let error = error{
-                    print(error.localizedDescription)
+                    completion(.failure(FirestoreError(error)))
                     return
                 }
                 self.fetchGerichte(forTable: table) { gerichte in
@@ -95,7 +95,7 @@ struct GerichteService{
     }
     
     
-    func gerichtFinished(_ order: Gericht, changedTo state: Bool, completion: @escaping(Gericht) -> Void){
+    func gerichtFinished(_ order: Gericht, changedTo state: Bool, completion: @escaping(Result<Gericht, Error>) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let id = order.id else { return }
         guard let tableId = order.tableId else { return }
@@ -105,7 +105,7 @@ struct GerichteService{
             .document(id)
             .updateData(["istSchonGekommen" : state]) { error in
                 if let error = error{
-                    print(error.localizedDescription)
+                    completion(.failure(FirestoreError(error)))
                     return
                 }
                 self.fetchGericht(forTable: tableId, forOrderId: id) { gericht in
