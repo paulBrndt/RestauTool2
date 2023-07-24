@@ -43,8 +43,13 @@ public struct Gericht: Identifiable, Decodable{
         
         var mutable = self
         
-        service.gerichtFinished(self, changedTo: state) { gericht in
-            mutable = gericht
+        service.gerichtFinished(self, changedTo: state) { result in
+            switch result {
+            case .success(let gericht):
+                mutable = gericht
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
         }
         self = mutable
     }
